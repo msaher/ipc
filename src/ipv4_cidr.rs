@@ -20,6 +20,22 @@ impl Ipv4Cidr {
 
         return Ok(Ipv4Cidr { ip, prefix_len })
     }
+
+    pub fn network_address(&self) -> Ipv4Addr {
+        let suffix_len: u8 = 32-self.prefix_len;
+        let addr: u32 = self.ip.into();
+        let mask: u32 = !0 << suffix_len;
+        let netadd = addr & mask;
+        Ipv4Addr::from(netadd)
+    }
+
+    pub fn broadcast_address(&self) -> Ipv4Addr {
+        let addr: u32 = self.ip.into();
+        let mask: u32 = !0 >> self.prefix_len;
+        let broadd = addr | mask;
+        Ipv4Addr::from(broadd)
+    }
+
     pub fn ip(&self) -> Ipv4Addr {
         return self.ip;
     }
