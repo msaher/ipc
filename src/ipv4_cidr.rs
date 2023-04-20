@@ -51,3 +51,25 @@ impl From<Ipv4Addr> for Ipv4Cidr {
     }
 }
 
+impl FromStr for Ipv4Cidr {
+    type Err = CidrParseError;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        let parts = s.split('/').collect::<Vec<&str>>();
+        let ip = Ipv4Addr::from_str(parts[0])?;
+
+        if parts.len() == 1 {
+            return Ok(Ipv4Cidr::from(ip));
+        }
+        else if parts.len() != 2 {
+            return Err(Self::Err::TokenErr)
+        }
+
+        let prefix_len = u8::from_str(parts[1])?;
+        if prefix_len >= 32 || prefix_len == 0 {
+            return Err(Self::Err::InvalidErr(InvalidPrefixErr));
+        }
+
+        return Ok(Ipv4Cidr {ip, prefix_len});
+    }
+}
