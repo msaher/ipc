@@ -2,7 +2,7 @@
 
 A straight forward CLI utility to display all the relevant information
 associated with an IPv4 Address. I originally wrote it because dealing with IP
-address manually got old quickly.
+addressees manually got old quickly.
 
 # Usage
 
