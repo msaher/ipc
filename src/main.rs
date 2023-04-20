@@ -54,3 +54,26 @@ fn show_details(ipcidr: &Ipv4Cidr, show_class: bool) {
     }
 }
 
+fn main() {
+    let args: Vec<String> = env::args().collect();
+
+    if args.len() != 2 {
+        println!("invalid number of arguments");
+        std::process::exit(1);
+    }
+
+     let ipcidr = Ipv4Cidr::from_str(&args[1]);
+
+     match ipcidr {
+         Ok(ip) => {
+             let mut show_class = true;
+             if args[1].contains('/') {
+                 show_class = false;
+             }
+             show_details(&ip, show_class)
+         },
+         Err(e) => println!("{}", e),
+     }
+
+     std::process::exit(0);
+}
