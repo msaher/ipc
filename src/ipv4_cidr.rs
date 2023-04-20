@@ -44,3 +44,10 @@ impl Ipv4Cidr {
         return self.prefix_len;
     }
 }
+
+impl From<Ipv4Addr> for Ipv4Cidr {
+    fn from(ip: Ipv4Addr) -> Self {
+        Ipv4Cidr::new(ip, ipv4_class(&ip) as u8).unwrap()
+    }
+}
+
